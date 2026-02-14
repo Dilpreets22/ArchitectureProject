@@ -29,7 +29,7 @@ const Navbar = () => {
                         <Box className="logo"/>
 
                         <span className="name">
-                            Roomify
+                            Architex
                         </span>
                     </div>
                     <ul className="links">

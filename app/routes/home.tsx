@@ -5,13 +5,13 @@ import Button from "../../components/ui/Button";
 import Upload from "../../components/Upload";
 import {useNavigate} from "react-router";
 import {useEffect, useRef, useState} from "react";
-import {createProject, getProjects} from "../../lib/puter.action"
+import {createProject, getProjects} from "../../lib/puter.action";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Architex" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+    return [
+        { title: "Architex" },
+        { name: "description", content: "Welcome to React Router!" },
+    ];
 }
 
 export default function Home() {
@@ -65,92 +65,94 @@ export default function Home() {
 
         fetchProjects();
     }, []);
-  return (
-      <div className="home">
-        <Navbar />
-          <section className="hero">
-              <div className="announce">
-                  <div className="dot">
-                      <div className="pulse"></div>
-                  </div>
 
-                  <p>Introducing Architex 2.0</p>
-              </div>
+    return (
+        <div className="home">
+            <Navbar />
 
-              <h1>Build beautiful spaces at the speed of thought with Architex</h1>
+            <section className="hero">
+                <div className="announce">
+                    <div className="dot">
+                        <div className="pulse"></div>
+                    </div>
 
-              <p className="subtitle">
-                  Architex is an AI-first design environment that helps you visualize, render, and ship architectural projects faster  than ever.
-              </p>
+                    <p>Introducing Architex 2.0</p>
+                </div>
 
-              <div className="actions">
-                  <a href="#upload" className="cta">
-                      Start Building <ArrowRight className="icon" />
-                  </a>
+                <h1>Build beautiful spaces at the speed of thought with Architex</h1>
 
-                  <Button variant="outline" size="lg" className="demo">
-                      Watch Demo
-                  </Button>
-              </div>
+                <p className="subtitle">
+                    Architex is an AI-first design environment that helps you visualize, render, and ship architectural projects faster  than ever.
+                </p>
 
-              <div id="upload" className="upload-shell">
-                  <div className="grid-overlay" />
+                <div className="actions">
+                    <a href="#upload" className="cta">
+                        Start Building <ArrowRight className="icon" />
+                    </a>
 
-                  <div className="upload-card">
-                      <div className="upload-head">
-                          <div className="upload-icon">
-                              <Layers className="icon" />
-                          </div>
+                    <Button variant="outline" size="lg" className="demo">
+                        Watch Demo
+                    </Button>
+                </div>
 
-                          <h3>Upload your floor plan</h3>
-                          <p>Supports JPG, PNG, formats up to 10MB</p>
-                      </div>
+                <div id="upload" className="upload-shell">
+                    <div className="grid-overlay" />
 
-                      <Upload onComplete={(base64Data)=>{
-                          console.log("Upload Complete",base64Data);
-                      }}/>
-                  </div>
-              </div>
-          </section>
+                    <div className="upload-card">
+                        <div className="upload-head">
+                            <div className="upload-icon">
+                                <Layers className="icon" />
+                            </div>
 
-          <section className="projects">
-              <div className="section-inner">
-                  <div className="section-head">
-                      <div className="copy">
-                          <h2>Projects</h2>
-                          <p>Your latest work and shared community projects, all in one place.</p>
-                      </div>
-                  </div>
+                            <h3>Upload your floor plan</h3>
+                            <p>Supports JPG, PNG, formats up to 10MB</p>
+                        </div>
 
-                  <div className="projects-grid">
-                          <div className="project-card group" >
-                              <div className="preview">
-                                  <img  src="https://roomify-mlhuk267-dfwu1i.puter.site/projects/1770803585402/rendered.png" alt="Project"
-                                  />
+                        <Upload onComplete={handleUploadComplete} />
+                    </div>
+                </div>
+            </section>
 
-                                  <div className="badge">
-                                      <span>Community</span>
-                                  </div>
-                              </div>
+            <section className="projects">
+                <div className="section-inner">
+                    <div className="section-head">
+                        <div className="copy">
+                            <h2>Projects</h2>
+                            <p>Your latest work and shared community projects, all in one place.</p>
+                        </div>
+                    </div>
 
-                              <div className="card-body">
-                                  <div>
-                                      <h3>Project Manhattan</h3>
+                    <div className="projects-grid">
+                        {projects.map(({id, name, renderedImage, sourceImage, timestamp}) => (
+                            <div key={id} className="project-card group" onClick={() => navigate(`/visualizer/${id}`)}>
+                                <div className="preview">
+                                    <img  src={renderedImage || sourceImage} alt="Project"
+                                    />
 
-                                      <div className="meta">
-                                          <Clock size={12} />
-                                          <span>{new Date('01.01.2026').toLocaleDateString()}</span>
-                                          <span>By JS Mastery</span>
-                                      </div>
-                                  </div>
-                                  <div className="arrow">
-                                      <ArrowUpRight size={18} />
-                                  </div>
-                              </div>
-                          </div>
-                  </div>
-              </div>
-          </section>
-      </div>
-      )
+                                    <div className="badge">
+                                        <span>Community</span>
+                                    </div>
+                                </div>
+
+                                <div className="card-body">
+                                    <div>
+                                        <h3>{name}</h3>
+
+                                        <div className="meta">
+                                            <Clock size={12} />
+                                            <span>{new Date(timestamp).toLocaleDateString()}</span>
+                                            <span>By Dilpreet</span>
+                                        </div>
+                                    </div>
+                                    <div className="arrow">
+                                        <ArrowUpRight size={18} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        </div>
+    )
 }
